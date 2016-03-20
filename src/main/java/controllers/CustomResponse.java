@@ -21,14 +21,13 @@ public class CustomResponse {
     private Object response;
 
     public CustomResponse() {
-        this.code = -1;
+        response = "";
+        code = -1;
     }
 
     @NotNull
     public Object getResponse() { return response; }
-    public void setResponse(@NotNull Object response) {
-        this.response = response;
-    }
+    public void setResponse(@NotNull Object response) { this.response = response; }
     @NotNull
     public int getCode() { return code; }
     public void setCode(@NotNull int code) { this.code = code; }
