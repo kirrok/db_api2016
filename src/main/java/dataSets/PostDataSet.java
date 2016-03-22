@@ -65,6 +65,9 @@ public class PostDataSet {
         this.isSpam = resultSet.getBoolean("isSpam");
         this.isDeleted = resultSet.getBoolean("isDeleted");
         this.parent = resultSet.getInt("parent");
+        this.likes = resultSet.getInt("likes");
+        this.dislikes = resultSet.getInt("dislikes");
+        this.points = resultSet.getInt("points");
     }
 
     public int getId() { return id; }

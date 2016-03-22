@@ -98,14 +98,9 @@ public class ThreadDAOimpl implements ThreadDAO {
             response.setCode(CustomResponse.OK);
             return response;
         } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) {
-                response.setCode(CustomResponse.ALREADY_EXIST);
-                return response;
-            } else {
-                response.setResponse("UNKNOWN ERROR");
-                response.setCode(CustomResponse.UNKNOWN_ERROR);
-                return response;
-            }
+            response.setResponse("UNKNOWN ERROR");
+            response.setCode(CustomResponse.UNKNOWN_ERROR);
+            return response;
         }
     }
 

@@ -49,13 +49,43 @@ public class PostController {
         return Response.ok().entity(json).build();
     }
 
-    /*@GET
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("list")
     public Response list(@QueryParam("forum") String forumShortName,
-                            @QueryParam("thread") String threadId) throws IOException {
-        CustomResponse response = postDAO.list(forum, thread);
+                         @QueryParam("thread") String threadId,
+                         @QueryParam("since") String since,
+                         @QueryParam("limit") String limit,
+                         @QueryParam("order") String order) throws IOException {
+        CustomResponse response = postDAO.list(forumShortName, threadId, since, limit, order);
         String json = mapper.writeValueAsString(response);
         return Response.ok().entity(json).build();
-    }*/
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("remove")
+    public Response remove(String postString) throws IOException {
+        CustomResponse response = postDAO.removeOrRestore(postString, "remove");
+        String json = mapper.writeValueAsString(response);
+        return Response.ok().entity(json).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("restore")
+    public Response restore(String postString) throws IOException {
+        CustomResponse response = postDAO.removeOrRestore(postString, "restore");
+        String json = mapper.writeValueAsString(response);
+        return Response.ok().entity(json).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("vote")
+    public Response vote(String voteString) throws IOException {
+        CustomResponse response = postDAO.vote(voteString, "restore");
+        String json = mapper.writeValueAsString(response);
+        return Response.ok().entity(json).build();
+    }
 }

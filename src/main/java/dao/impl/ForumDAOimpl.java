@@ -134,4 +134,6 @@ public class ForumDAOimpl implements ForumDAO{
             return response;
         }
     }
+
+    //TODO ворзврат объекта форума если уже существует
 }

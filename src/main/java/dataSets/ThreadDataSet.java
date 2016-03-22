@@ -45,6 +45,10 @@ public class ThreadDataSet {
         this.forum = resultSet.getObject("forum");
         this.user = resultSet.getString("user");
         this.isDeleted = resultSet.getBoolean("isDeleted");
+        this.posts = resultSet.getInt("posts");
+        this.likes = resultSet.getInt("likes");
+        this.dislikes = resultSet.getInt("dislikes");
+        this.points = resultSet.getInt("points");
     }
 
     public int getId() { return id; }

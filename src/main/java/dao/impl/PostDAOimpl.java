@@ -8,10 +8,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,14 +98,9 @@ public class PostDAOimpl implements PostDAO{
             response.setCode(CustomResponse.OK);
             return response;
         } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) {
-                response.setCode(CustomResponse.ALREADY_EXIST);
-                return response;
-            } else {
-                response.setResponse("UNKNOWN ERROR");
-                response.setCode(CustomResponse.UNKNOWN_ERROR);
-                return response;
-            }
+            response.setResponse("UNKNOWN ERROR");
+            response.setCode(CustomResponse.UNKNOWN_ERROR);
+            return response;
         }
     }
 
@@ -160,6 +152,144 @@ public class PostDAOimpl implements PostDAO{
             response.setResponse("UNKNOWN ERROR");
             response.setCode(CustomResponse.UNKNOWN_ERROR);
             return response;
+        }
+    }
+
+    public CustomResponse list(String forumShortName, String threadId, String since,
+                               String limit, String order) {
+        CustomResponse response = new CustomResponse();
+
+        if ((forumShortName == null && threadId == null) || (forumShortName != null && threadId != null)
+                || (order != null && !order.equals("asc") && !order.equals("desc"))) {
+            response.setResponse("INCORRECT REQUEST");
+            response.setCode(CustomResponse.INCORRECT_REQUEST);
+            return response;
+        }
+
+        try {
+            String forumQuery = "SELECT * FROM forum WHERE short_name=?;";
+            String threadQuery = "SELECT * FROM thread WHERE id=?";
+            String existQuery = (forumShortName != null) ? forumQuery : threadQuery;
+            PreparedStatement existStmt = connection.prepareStatement(existQuery);
+            existStmt.setString(1, (forumShortName != null) ? forumShortName : threadId);
+            ResultSet existResultSet = existStmt.executeQuery();
+
+            if (!existResultSet.next()) {
+                existStmt.close();
+                response.setResponse("NOT FOUND");
+                response.setCode(CustomResponse.NOT_FOUND);
+                return response;
+            }
+            existStmt.close();
+
+            forumQuery = "SELECT * FROM post WHERE forum=?";
+            threadQuery = "SELECT * FROM post WHERE thread=?";
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append((forumShortName != null) ? forumQuery : threadQuery);
+            if (since != null) queryBuilder.append(" AND date >=?");
+            if (order != null) {
+                queryBuilder.append(" ORDER BY date");
+                if (order.equals("desc")) queryBuilder.append(" DESC");
+            }
+            if (limit != null) queryBuilder.append(" LIMIT ?");
+
+            PreparedStatement stmt = connection.prepareStatement(queryBuilder.toString());
+            stmt.setString(1, (forumShortName != null) ? forumShortName : threadId);
+            int stmtParam = 2;
+            if (since != null) stmt.setString(stmtParam++, since);
+            if (limit != null) stmt.setInt(stmtParam, new Integer(limit));
+
+            ResultSet resultSet = stmt.executeQuery();
+            List<PostDataSet> posts = new ArrayList<>();
+            while (resultSet.next()) {
+                PostDataSet post = new PostDataSet(resultSet);
+                posts.add(post);
+            }
+            stmt.close();
+
+            response.setResponse(posts);
+            response.setCode(CustomResponse.OK);
+            return response;
+
+        } catch (SQLException e) {
+            response.setResponse("UNKNOWN ERROR");
+            response.setCode(CustomResponse.UNKNOWN_ERROR);
+            return response;
+        }
+    }
+
+    public CustomResponse removeOrRestore(String postString, String action) {
+        CustomResponse response = new CustomResponse();
+
+        JsonNode json;
+        try {
+            json = mapper.readValue(postString, JsonNode.class);
+        } catch (IOException e) {
+            response.setResponse("INVALID REQUEST");
+            response.setCode(CustomResponse.INVALID_REQUEST);
+            return response;
+        }
+
+        try {
+            String queryPost = "SELECT thread, isDeleted FROM post WHERE id=?";
+            PreparedStatement stmt = connection.prepareStatement(queryPost);
+            stmt.setInt(1, json.get("post").getIntValue());
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                int threadId = resultSet.getInt("thread");
+                boolean oldIsDeleted = resultSet.getBoolean("isDeleted");
+                stmt.close();
+                String queryRemove = "UPDATE post SET isDeleted=? WHERE id=?";
+                stmt = connection.prepareStatement(queryRemove);
+                stmt.setInt(1, (action.equals("remove"))? 1 : 0);
+                stmt.setInt(2, json.get("post").getIntValue());
+                stmt.executeUpdate();
+
+                if (!oldIsDeleted && action.equals("remove") || oldIsDeleted && action.equals("restore")) {
+                    stmt.close();
+                    String queryThreadPostsDec = "UPDATE thread SET posts=posts-1 WHERE id=?";
+                    String queryThreadPostsInc = "UPDATE thread SET posts=posts+1 WHERE id=?";
+                    String queryThreadPosts = (action.equals("remove") ? queryThreadPostsDec : queryThreadPostsInc);
+                    stmt = connection.prepareStatement(queryThreadPosts);
+                    stmt.setInt(1, threadId);
+                    stmt.executeUpdate();
+                }
+            }
+            stmt.close();
+
+            response.setResponse(json);
+            response.setCode(CustomResponse.OK);
+            return response;
+        } catch (SQLException e) {
+            response.setResponse("UNKNOWN ERROR");
+            response.setCode(CustomResponse.UNKNOWN_ERROR);
+            return response;
+        }
+    }
+
+    public CustomResponse vote(String voteString) {
+        CustomResponse response = new CustomResponse();
+
+        JsonNode json;
+        try {
+            json = mapper.readValue(voteString, JsonNode.class);
+        } catch (IOException e) {
+            response.setResponse("INVALID REQUEST");
+            response.setCode(CustomResponse.INVALID_REQUEST);
+            return response;
+        }
+
+        int vote = json.get("vote").getIntValue();
+        if ( vote != 1 && vote != -1) {
+            response.setResponse("INCORRECT REQUEST");
+            response.setCode(CustomResponse.INCORRECT_REQUEST);
+            return response;
+        }
+        try {
+            String query = "UPDATE "
+
+        } catch (SQLException e) {
+
         }
     }
 }
