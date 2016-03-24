@@ -20,10 +20,9 @@ public class Connector {
                     append("localhost:").            //host name
                     append("3306/").                //port
                     append("TPForum?").            //db name
-                    append("user=Sasha&").            //login
-                    append("password=secret");        //password
-
-            System.out.append("URL: " + url + "\n");
+                    append("user=Alexandra&").            //login
+                    append("password=secret&").      //password
+                    append("useUnicode=true");        //password
 
             Connection connection = DriverManager.getConnection(url.toString());
             return connection;

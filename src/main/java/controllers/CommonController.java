@@ -78,3 +78,5 @@ public class CommonController {
         return Response.ok().entity(json).build();
     }
 }
+
+//TODO fix status with no rows
