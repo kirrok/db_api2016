@@ -198,8 +198,9 @@ public class UserDAOimpl implements UserDAO{
             List<UserDataSet> followers = new ArrayList<>();
 
             StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.append("SELECT follower FROM follows WHERE followed=?");
-            queryBuilder.append(" ORDER BY date");
+            queryBuilder.append("SELECT follower FROM follows f JOIN user u ON f.follower = u.email");
+            queryBuilder.append(" WHERE f.followed=?");
+            queryBuilder.append(" ORDER BY u.name");
             if (order.equals("desc")) queryBuilder.append(" DESC");
             if (limit != null) queryBuilder.append(" LIMIT ?");
 
@@ -231,8 +232,9 @@ public class UserDAOimpl implements UserDAO{
             List<UserDataSet> following = new ArrayList<>();
 
             StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.append("SELECT followed FROM follows WHERE follower=?");
-            queryBuilder.append(" ORDER BY date");
+            queryBuilder.append("SELECT followed FROM follows f JOIN user u ON f.followed = u.email");
+            queryBuilder.append(" WHERE f.follower=?");
+            queryBuilder.append(" ORDER BY u.name");
             if (order.equals("desc")) queryBuilder.append(" DESC");
             if (limit != null) queryBuilder.append(" LIMIT ?");
 
