@@ -22,7 +22,8 @@ public class Connector {
                     append("TPForum?").            //db name
                     append("user=Alexandra&").            //login
                     append("password=secret&").      //password
-                    append("useUnicode=true");        //password
+                    append("useUnicode=true&").
+                    append("characterEncoding=utf8");        //password
 
             Connection connection = DriverManager.getConnection(url.toString());
             return connection;
