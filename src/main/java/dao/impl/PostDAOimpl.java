@@ -118,11 +118,13 @@ public class PostDAOimpl implements PostDAO{
                 stmt.close();
             }
 
-            String queryThreadPosts = "UPDATE thread SET posts=posts+1 WHERE id=?";
-            stmt = connection.prepareStatement(queryThreadPosts);
-            stmt.setInt(1, (Integer)post.getThread());
-            stmt.execute();
-            stmt.close();
+            if (post.getIsDeleted() == false) {
+                String queryThreadPosts = "UPDATE thread SET posts=posts+1 WHERE id=?";
+                stmt = connection.prepareStatement(queryThreadPosts);
+                stmt.setInt(1, (Integer) post.getThread());
+                stmt.execute();
+                stmt.close();
+            }
 
             return new CustomResponse(post, CustomResponse.OK);
         } catch (SQLException e) {
