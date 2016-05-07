@@ -6,6 +6,7 @@ import dataSets.PostDataSet;
 import dataSets.UserDataSet;
 import executor.PreparedExecutor;
 import executor.TExecutor;
+import main.Main;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -18,19 +19,18 @@ import java.util.List;
  * Created by parallels on 3/20/16.
  */
 public class UserDAOimpl implements UserDAO{
-    Connection connection;
     ObjectMapper mapper;
 
-    public UserDAOimpl(Connection connection) {
-        this.connection = connection;
+    public UserDAOimpl() {
         mapper = new ObjectMapper();
     }
 
     public void truncateTable() {
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             TExecutor.execQuery(connection, "SET FOREIGN_KEY_CHECKS = 0;");
             TExecutor.execQuery(connection, "TRUNCATE TABLE user;");
             TExecutor.execQuery(connection, "TRUNCATE TABLE follows;");
+            TExecutor.execQuery(connection, "TRUNCATE TABLE user_forum;");
             TExecutor.execQuery(connection, "SET FOREIGN_KEY_CHECKS = 1;");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class UserDAOimpl implements UserDAO{
     }
 
     public int count() {
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             int count = TExecutor.execQuery(connection, "SELECT COUNT(*) FROM user;", resultSet -> {
                 resultSet.next();
                 return resultSet.getInt(1);
@@ -52,22 +52,21 @@ public class UserDAOimpl implements UserDAO{
 
     public CustomResponse details(String email) {
         CustomResponse response = new CustomResponse();
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user WHERE email = ?;");
             stmt.setString(1, email);
             ResultSet resultSet = stmt.executeQuery();
             UserDataSet user = null;
             if (resultSet.next()) {
                 user = new UserDataSet(resultSet);
+                setFollowers(connection, user);
+                setFollowing(connection, user);
+                setSubscriptions(connection, user);
             } else {
                 response.setResponse("NOT FOUND");
                 response.setCode(CustomResponse.NOT_FOUND);
                 return response;
             }
-
-            setFollowers(user);
-            setFollowing(user);
-            setSubscriptions(user);
 
             response.setResponse(user);
             response.setCode(CustomResponse.OK);
@@ -105,7 +104,7 @@ public class UserDAOimpl implements UserDAO{
             return response;
         }
 
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             String query = "INSERT INTO user (email, username, name, about, isAnonymous) VALUES(?,?,?,?,?);";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, user.getEmail());
@@ -147,7 +146,7 @@ public class UserDAOimpl implements UserDAO{
 
         String follower = json.get("follower").getTextValue();
         String followed = json.get("followee").getTextValue();
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             String query = "INSERT IGNORE INTO follows (follower, followed) VALUES (?,?)";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, follower);
@@ -174,7 +173,7 @@ public class UserDAOimpl implements UserDAO{
 
         String follower = json.get("follower").getTextValue();
         String followed = json.get("followee").getTextValue();
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             String query = "DELETE FROM follows WHERE follower=? AND followed=?;";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, follower);
@@ -194,7 +193,7 @@ public class UserDAOimpl implements UserDAO{
         }
         order = (order == null) ? "desc" : order;
 
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             List<UserDataSet> followers = new ArrayList<>();
 
             StringBuilder queryBuilder = new StringBuilder();
@@ -228,7 +227,7 @@ public class UserDAOimpl implements UserDAO{
         }
         order = (order == null) ? "desc" : order;
 
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             List<UserDataSet> following = new ArrayList<>();
 
             StringBuilder queryBuilder = new StringBuilder();
@@ -262,7 +261,7 @@ public class UserDAOimpl implements UserDAO{
         }
         order = (order == null) ? "desc" : order;
 
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             List<PostDataSet> posts = new ArrayList<>();
 
             StringBuilder queryBuilder = new StringBuilder();
@@ -280,7 +279,7 @@ public class UserDAOimpl implements UserDAO{
             ResultSet resultSet = stmt.executeQuery();
 
             while (resultSet.next()) {
-                PostDataSet post = (PostDataSet)new PostDAOimpl(connection).details(resultSet.getString(1), new ArrayList<>()).getResponse();
+                PostDataSet post = (PostDataSet)new PostDAOimpl().details(resultSet.getString(1), new ArrayList<>()).getResponse();
                 posts.add(post);
             }
 
@@ -305,7 +304,7 @@ public class UserDAOimpl implements UserDAO{
         String email = json.get("user").getTextValue();
         String name = json.get("name").getTextValue();
         String about = json.get("about").getTextValue();
-        try {
+        try (Connection connection = Main.connection.getConnection()) {
             String query = "UPDATE user SET name=?, about=? WHERE email=?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, name);
@@ -321,7 +320,7 @@ public class UserDAOimpl implements UserDAO{
     }
 
 
-    public void setFollowers(UserDataSet user) throws SQLException {
+    public void setFollowers(Connection connection, UserDataSet user) throws SQLException {
         ArrayList<String> followers = new ArrayList<>();
 
         String query = "SELECT follower FROM follows WHERE followed = ?;";
@@ -335,7 +334,7 @@ public class UserDAOimpl implements UserDAO{
         user.setFollowers(followers);
     }
 
-    public void setFollowing(UserDataSet user) throws SQLException {
+    public void setFollowing(Connection connection, UserDataSet user) throws SQLException {
         ArrayList<String> following = new ArrayList<>();
 
         String query = "SELECT followed FROM follows WHERE follower = ?;";
@@ -350,7 +349,7 @@ public class UserDAOimpl implements UserDAO{
         user.setFollowing(following);
     }
 
-    public void setSubscriptions(UserDataSet user) throws SQLException {
+    public void setSubscriptions(Connection connection, UserDataSet user) throws SQLException {
         ArrayList<Integer> subscriptions = new ArrayList<>();
 
         String query = "SELECT thread FROM subscribed WHERE user = ?;";
