@@ -6,25 +6,15 @@ import dataSets.ForumDataSet;
 import dataSets.PostDataSet;
 import dataSets.ThreadDataSet;
 import dataSets.UserDataSet;
-import executor.PreparedExecutor;
-import executor.TExecutor;
-import main.Connector;
 import main.Main;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-//FIX PLACE WITH DETAILS
-/**
- * Created by parallels on 3/20/16.
- */
+
 public class ForumDAOimpl implements ForumDAO{
     private ObjectMapper mapper;
 
@@ -35,9 +25,10 @@ public class ForumDAOimpl implements ForumDAO{
 
     public void truncateTable() {
         try (Connection connection = Main.connection.getConnection()) {
-            TExecutor.execQuery(connection, "SET FOREIGN_KEY_CHECKS = 0;");
-            TExecutor.execQuery(connection, "TRUNCATE TABLE forum;");
-            TExecutor.execQuery(connection, "SET FOREIGN_KEY_CHECKS = 1;");
+            Statement stmt = connection.createStatement();
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 0;");
+            stmt.execute("TRUNCATE TABLE forum;");
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 1;");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -45,10 +36,9 @@ public class ForumDAOimpl implements ForumDAO{
 
     public int count() {
         try (Connection connection = Main.connection.getConnection()) {
-            int count = TExecutor.execQuery(connection, "SELECT COUNT(*) FROM forum;", resultSet -> {
-                resultSet.next();
-                return resultSet.getInt(1);
-            });
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT COUNT(*) FROM forum;");
+            int count = resultSet.getInt(1);
             return count;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,12 +47,15 @@ public class ForumDAOimpl implements ForumDAO{
     }
 
     public CustomResponse create(String forumString) {
-        CustomResponse response = new CustomResponse();
         try {
             JsonNode json = mapper.readValue(forumString, JsonNode.class);
             try {
-                ForumDataSet forum = new ForumDataSet(json.get("name").getTextValue(),
-                        json.get("short_name").getTextValue(), json.get("user").getTextValue() );
+                ForumDataSet forum = new ForumDataSet(
+                        json.get("name").getTextValue(),
+                        json.get("short_name").getTextValue(),
+                        json.get("user").getTextValue()
+                );
+
                 try (Connection connection = Main.connection.getConnection()) {
                     String query = "INSERT INTO forum (name, short_name, user) VALUES(?,?,?)";
                     PreparedStatement stmt = connection.prepareStatement(query);
@@ -74,36 +67,25 @@ public class ForumDAOimpl implements ForumDAO{
                     if (generatedKeys.next())
                         forum.setId(generatedKeys.getInt(1));
 
-                    response.setResponse(forum);
-                    response.setCode(CustomResponse.OK);
-                    return response;
+                    return new CustomResponse(forum, CustomResponse.OK);
                 } catch (SQLException e) {
                     if (e.getErrorCode() == 1062) {
                         return details(json.get("short_name").getTextValue(), new ArrayList<>());
                     } else {
-                        response.setResponse("UNKNOWN ERROR");
-                        response.setCode(CustomResponse.UNKNOWN_ERROR);
-                        return response;
+                        return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
                     }
                 }
             } catch (Exception e) {
-                response.setResponse("INCORRECT REQUEST");
-                response.setCode(CustomResponse.INCORRECT_REQUEST);
-                return response;
+                return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
             }
         } catch (IOException e) {
-            response.setResponse("INVALID REQUEST");
-            response.setCode(CustomResponse.INVALID_REQUEST);
-            return response;
+            return new CustomResponse("INVALID REQUEST", CustomResponse.INVALID_REQUEST);
         }
     }
 
     public CustomResponse details(String forumShortName, final List<String> related) {
-        CustomResponse response = new CustomResponse();
         if (forumShortName == null || (!related.isEmpty() && !related.get(0).equals("user"))) {
-            response.setResponse("INCORRECT REQUEST");
-            response.setCode(CustomResponse.INCORRECT_REQUEST);
-            return response;
+            return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
         }
 
         ForumDataSet forum;
@@ -115,27 +97,23 @@ public class ForumDAOimpl implements ForumDAO{
             if (resultSet.next()) {
                 forum = new ForumDataSet(resultSet);
             } else {
-                response.setResponse("NOT FOUND");
-                response.setCode(CustomResponse.NOT_FOUND);
-                return response;
+                return new CustomResponse("NOT FOUND", CustomResponse.NOT_FOUND);
             }
             if (related.contains("user")) {
                 forum.setUser(new UserDAOimpl().details((String)forum.getUser()).getResponse());
             }
-            stmt.close();
 
-            response.setResponse(forum);
-            response.setCode(CustomResponse.OK);
-            return response;
+            return new CustomResponse(forum, CustomResponse.OK);
         } catch (SQLException e) {
-            response.setResponse("UNKNOWN ERROR");
-            response.setCode(CustomResponse.UNKNOWN_ERROR);
-            return response;
+            return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
         }
     }
 
-    public CustomResponse listPosts(String forumShortName, final List<String> related, String since,
-                             String limit, String order) {
+    public CustomResponse listPosts(String forumShortName,
+                                    final List<String> related,
+                                    String since,
+                                    String limit,
+                                    String order) {
         if (forumShortName == null || (order != null && !order.equals("asc") && !order.equals("desc")))
             return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
         for (String str : related) {
@@ -152,7 +130,6 @@ public class ForumDAOimpl implements ForumDAO{
             if (!order.equals("asc")) queryBuilder.append(" DESC");
             if (limit != null) queryBuilder.append(" LIMIT ?");
 
-
             PreparedStatement stmt = connection.prepareStatement(queryBuilder.toString());
             stmt.setString(1, forumShortName);
             int stmtParam = 2;
@@ -168,8 +145,7 @@ public class ForumDAOimpl implements ForumDAO{
                     post.setForum(details(forumShortName, new ArrayList<>()).getResponse());
                 if (related.contains("thread")) {
                     Integer thread = (Integer)post.getThread();
-                    post.setThread(new ThreadDAOimpl().details(thread.toString(),
-                            new ArrayList<>()).getResponse());
+                    post.setThread(new ThreadDAOimpl().details(thread.toString(), new ArrayList<>()).getResponse());
                 }
                 if (related.contains("user")) {
                     String user = (String)post.getUser();
@@ -179,16 +155,17 @@ public class ForumDAOimpl implements ForumDAO{
                 posts.add(post);
             }
 
-            stmt.close();
-
             return new CustomResponse(posts, CustomResponse.OK);
         } catch (SQLException e){
             return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
         }
     }
 
-    public CustomResponse listThreads(String forumShortName, final List<String> related, String since,
-                                    String limit, String order) {
+    public CustomResponse listThreads(String forumShortName,
+                                      final List<String> related,
+                                      String since,
+                                      String limit,
+                                      String order) {
         if (forumShortName == null || (order != null && !order.equals("asc") && !order.equals("desc")))
             return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
         for(String str : related) {
@@ -215,7 +192,6 @@ public class ForumDAOimpl implements ForumDAO{
             List<ThreadDataSet> threads = new ArrayList<>();
             while (resultSet.next()) {
                 ThreadDataSet thread = new ThreadDataSet(resultSet);
-                threads.add(thread);
 
                 if (related.contains("forum"))
                     thread.setForum(details(forumShortName, new ArrayList<>()).getResponse());
@@ -223,8 +199,9 @@ public class ForumDAOimpl implements ForumDAO{
                     String user = (String)thread.getUser();
                     thread.setUser(new UserDAOimpl().details(user).getResponse());
                 }
+
+                threads.add(thread);
             }
-            stmt.close();
 
             return new CustomResponse(threads, CustomResponse.OK);
         } catch (SQLException e){
@@ -256,7 +233,6 @@ public class ForumDAOimpl implements ForumDAO{
             if (limit != null) stmt.setInt(param, new Integer(limit));
 
             ResultSet resultSet = stmt.executeQuery();
-
             while (resultSet.next()) {
                 UserDataSet user = new UserDataSet(resultSet);
                 new UserDAOimpl().setFollowers(connection, user);
@@ -266,14 +242,9 @@ public class ForumDAOimpl implements ForumDAO{
                     users.add(user);
             }
 
-            stmt.close();
             return new CustomResponse(users, CustomResponse.OK);
         } catch (SQLException e){
             return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
         }
     }
-
-    //TODO ворзврат объекта форума если уже существует
-    //TODO проверить везде дефолт у сортировки
-    //TODO проверить все на не найдено
 }
