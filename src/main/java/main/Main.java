@@ -6,6 +6,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.sql.DataSource;
+import java.net.InetSocketAddress;
 
 /**
  * Created by a.serebrennikova
@@ -23,8 +24,8 @@ public class Main {
         connector = new Connector();
         connection = connector.createSource();
 
-       // InetSocketAddress address = new InetSocketAddress("0.0.0.0", PORT);
-        final Server server = new Server(/*address*/PORT);
+        InetSocketAddress address = new InetSocketAddress("0.0.0.0", PORT);
+        final Server server = new Server(address);
         final ServletContextHandler contextHandler = new ServletContextHandler(server, "/db/api/", ServletContextHandler.SESSIONS);
 
         final ServletHolder servletHolder = new ServletHolder(ServletContainer.class);
