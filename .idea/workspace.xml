@@ -934,7 +934,8 @@
     <MESSAGE value="170-180 rps locally" />
     <MESSAGE value="170-180 rps localy" />
     <MESSAGE value="new jar" />
-    <option name="LAST_COMMIT_MESSAGE" value="new jar" />
+    <MESSAGE value="structure_dump" />
+    <option name="LAST_COMMIT_MESSAGE" value="structure_dump" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
