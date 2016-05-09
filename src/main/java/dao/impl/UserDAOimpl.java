@@ -4,6 +4,8 @@ import controllers.CustomResponse;
 import dao.UserDAO;
 import dataSets.PostDataSet;
 import dataSets.UserDataSet;
+import executor.PreparedExecutor;
+import executor.TExecutor;
 import main.Main;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -16,107 +18,123 @@ import java.util.List;
 /**
  * Created by parallels on 3/20/16.
  */
-@SuppressWarnings({"OverlyComplexBooleanExpression", "OverlyBroadCatchBlock", "OverlyComplexMethod", "JDBCResourceOpenedButNotSafelyClosed"})
 public class UserDAOimpl implements UserDAO{
-    final ObjectMapper mapper;
+    ObjectMapper mapper;
 
     public UserDAOimpl() {
         mapper = new ObjectMapper();
     }
 
-    @Override
     public void truncateTable() {
         try (Connection connection = Main.connection.getConnection()) {
-            final Statement stmt = connection.createStatement();
-            stmt.execute("SET FOREIGN_KEY_CHECKS = 0;");
-            stmt.execute("TRUNCATE TABLE user;");
-            stmt.execute("TRUNCATE TABLE follows;");
-            stmt.execute("TRUNCATE TABLE user_forum;");
-            stmt.execute("SET FOREIGN_KEY_CHECKS = 1;");
+            TExecutor.execQuery(connection, "SET FOREIGN_KEY_CHECKS = 0;");
+            TExecutor.execQuery(connection, "TRUNCATE TABLE user;");
+            TExecutor.execQuery(connection, "TRUNCATE TABLE follows;");
+            TExecutor.execQuery(connection, "TRUNCATE TABLE user_forum;");
+            TExecutor.execQuery(connection, "SET FOREIGN_KEY_CHECKS = 1;");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     public int count() {
         try (Connection connection = Main.connection.getConnection()) {
-            final Statement stmt = connection.createStatement();
-            return stmt.executeQuery("SELECT COUNT(*) FROM user;").getInt(1);
+            int count = TExecutor.execQuery(connection, "SELECT COUNT(*) FROM user;", resultSet -> {
+                resultSet.next();
+                return resultSet.getInt(1);
+            });
+            return count;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
     }
 
-    @Override
     public CustomResponse details(String email) {
+        CustomResponse response = new CustomResponse();
         try (Connection connection = Main.connection.getConnection()) {
-            final PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user WHERE email = ?;");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user WHERE email = ?;");
             stmt.setString(1, email);
-
-            final ResultSet resultSet = stmt.executeQuery();
-            final UserDataSet user;
+            ResultSet resultSet = stmt.executeQuery();
+            UserDataSet user = null;
             if (resultSet.next()) {
                 user = new UserDataSet(resultSet);
                 setFollowers(connection, user);
                 setFollowing(connection, user);
                 setSubscriptions(connection, user);
             } else {
-                return new CustomResponse("NOT FOUND", CustomResponse.NOT_FOUND);
+                response.setResponse("NOT FOUND");
+                response.setCode(CustomResponse.NOT_FOUND);
+                return response;
             }
 
-            return new CustomResponse(user, CustomResponse.OK);
+            response.setResponse(user);
+            response.setCode(CustomResponse.OK);
+            return response;
+
         } catch (SQLException e) {
-            return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
+            response.setResponse("UNKNOWN ERROR");
+            response.setCode(CustomResponse.UNKNOWN_ERROR);
+            return response;
         }
     }
 
-    @Override
     public CustomResponse create(String userString) {
-        final UserDataSet user;
+        CustomResponse response = new CustomResponse();
+        UserDataSet user;
+
         try {
-            final JsonNode json = mapper.readValue(userString, JsonNode.class);
+            JsonNode json = mapper.readValue(userString, JsonNode.class);
             if (!json.has("email") || !json.has("username") || !json.has("name") || !json.has("about")) {
-                return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
+                response.setResponse("INCORRECT REQUEST");
+                response.setCode(CustomResponse.INCORRECT_REQUEST);
+                return response;
             }
             try {
                 user = new UserDataSet(json);
+
             } catch (Exception e) {
-                return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
+                response.setResponse("INCORRECT REQUEST");
+                response.setCode(CustomResponse.INCORRECT_REQUEST);
+                return response;
             }
         } catch (IOException e) {
-            return new CustomResponse("INVALID REQUEST", CustomResponse.INVALID_REQUEST);
+            response.setResponse("INVALID REQUEST");
+            response.setCode(CustomResponse.INVALID_REQUEST);
+            return response;
         }
 
         try (Connection connection = Main.connection.getConnection()) {
-            final String query = "INSERT INTO user (email, username, name, about, isAnonymous) VALUES(?,?,?,?,?);";
-            final PreparedStatement stmt = connection.prepareStatement(query);
+            String query = "INSERT INTO user (email, username, name, about, isAnonymous) VALUES(?,?,?,?,?);";
+            PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getUsername());
             stmt.setString(3, user.getName());
             stmt.setString(4, user.getAbout());
             stmt.setBoolean(5, user.getIsAnonymous());
             stmt.execute();
-
-            final ResultSet generatedKeys = stmt.getGeneratedKeys();
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next())
                 user.setId(generatedKeys.getInt(1));
+            stmt.close();
 
-            return new CustomResponse(user, CustomResponse.OK);
+            response.setResponse(user);
+            response.setCode(CustomResponse.OK);
+            return response;
         } catch (SQLException e) {
-            //noinspection MagicNumber
             if (e.getErrorCode() == 1062) {
-                return new CustomResponse("ALREADY_EXIST", CustomResponse.ALREADY_EXIST);
+                response.setCode(CustomResponse.ALREADY_EXIST);
+                return response;
             } else {
-                return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
+                response.setResponse("UNKNOWN ERROR");
+                response.setCode(CustomResponse.UNKNOWN_ERROR);
+                return response;
             }
         }
     }
 
-    @Override
     public CustomResponse follow(String followString) {
-        final JsonNode json;
+        JsonNode json;
         try {
             json = mapper.readValue(followString, JsonNode.class);
         } catch (IOException e) {
@@ -126,14 +144,15 @@ public class UserDAOimpl implements UserDAO{
         if (!json.has("follower") || !json.has("followee"))
             return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
 
-        final String follower = json.get("follower").getTextValue();
-        final String followed = json.get("followee").getTextValue();
+        String follower = json.get("follower").getTextValue();
+        String followed = json.get("followee").getTextValue();
         try (Connection connection = Main.connection.getConnection()) {
-            final String query = "INSERT IGNORE INTO follows (follower, followed) VALUES (?,?)";
-            final PreparedStatement stmt = connection.prepareStatement(query);
+            String query = "INSERT IGNORE INTO follows (follower, followed) VALUES (?,?)";
+            PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, follower);
             stmt.setString(2, followed);
             stmt.executeUpdate();
+            stmt.close();
 
             return details(follower);
         } catch (SQLException e) {
@@ -141,9 +160,8 @@ public class UserDAOimpl implements UserDAO{
         }
     }
 
-    @Override
     public CustomResponse unfollow(String unfollowString) {
-        final JsonNode json;
+        JsonNode json;
         try {
             json = mapper.readValue(unfollowString, JsonNode.class);
         } catch (IOException e) {
@@ -153,14 +171,15 @@ public class UserDAOimpl implements UserDAO{
         if (!json.has("follower") || !json.has("followee"))
             return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
 
-        final String follower = json.get("follower").getTextValue();
-        final String followed = json.get("followee").getTextValue();
+        String follower = json.get("follower").getTextValue();
+        String followed = json.get("followee").getTextValue();
         try (Connection connection = Main.connection.getConnection()) {
-            final String query = "DELETE FROM follows WHERE follower=? AND followed=?;";
-            final PreparedStatement stmt = connection.prepareStatement(query);
+            String query = "DELETE FROM follows WHERE follower=? AND followed=?;";
+            PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, follower);
             stmt.setString(2, followed);
             stmt.execute();
+            stmt.close();
 
             return details(follower);
         } catch (SQLException e) {
@@ -168,8 +187,6 @@ public class UserDAOimpl implements UserDAO{
         }
     }
 
-    @SuppressWarnings("MethodParameterNamingConvention")
-    @Override
     public CustomResponse listFollowers(String email, String since_id, String limit, String order) {
         if (email == null || order != null && !order.equals("asc") && !order.equals("desc")) {
             return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
@@ -177,34 +194,33 @@ public class UserDAOimpl implements UserDAO{
         order = (order == null) ? "desc" : order;
 
         try (Connection connection = Main.connection.getConnection()) {
-            final List<UserDataSet> followers = new ArrayList<>();
+            List<UserDataSet> followers = new ArrayList<>();
 
-            final StringBuilder queryBuilder = new StringBuilder();
+            StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("SELECT follower FROM follows f JOIN user u ON f.follower = u.email");
             queryBuilder.append(" WHERE f.followed=?");
             queryBuilder.append(" ORDER BY u.name");
             if (order.equals("desc")) queryBuilder.append(" DESC");
             if (limit != null) queryBuilder.append(" LIMIT ?");
 
-            final PreparedStatement stmt = connection.prepareStatement(queryBuilder.toString());
+            PreparedStatement stmt = connection.prepareStatement(queryBuilder.toString());
             stmt.setString(1, email);
             if (limit != null) stmt.setInt(2, new Integer(limit));
+            ResultSet resultSet = stmt.executeQuery();
 
-            final ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
-                final UserDataSet follower = (UserDataSet)details(resultSet.getString(1)).getResponse();
-                if ( since_id == null || follower.getId() >= new Integer(since_id) )
+                UserDataSet follower = (UserDataSet)details(resultSet.getString(1)).getResponse();
+                if ( since_id == null || since_id != null && follower.getId() >= new Integer(since_id) )
                     followers.add(follower);
             }
 
+            stmt.close();
             return new CustomResponse(followers, CustomResponse.OK);
         } catch (SQLException e) {
             return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
         }
     }
 
-    @SuppressWarnings("MethodParameterNamingConvention")
-    @Override
     public CustomResponse listFollowing(String email, String since_id, String limit, String order) {
         if (email == null || order != null && !order.equals("asc") && !order.equals("desc")) {
             return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
@@ -212,33 +228,33 @@ public class UserDAOimpl implements UserDAO{
         order = (order == null) ? "desc" : order;
 
         try (Connection connection = Main.connection.getConnection()) {
-            final List<UserDataSet> following = new ArrayList<>();
+            List<UserDataSet> following = new ArrayList<>();
 
-            final StringBuilder queryBuilder = new StringBuilder();
+            StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("SELECT followed FROM follows f JOIN user u ON f.followed = u.email");
             queryBuilder.append(" WHERE f.follower=?");
             queryBuilder.append(" ORDER BY u.name");
             if (order.equals("desc")) queryBuilder.append(" DESC");
             if (limit != null) queryBuilder.append(" LIMIT ?");
 
-            final PreparedStatement stmt = connection.prepareStatement(queryBuilder.toString());
+            PreparedStatement stmt = connection.prepareStatement(queryBuilder.toString());
             stmt.setString(1, email);
             if (limit != null) stmt.setInt(2, new Integer(limit));
+            ResultSet resultSet = stmt.executeQuery();
 
-            final ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
-                final UserDataSet followed = (UserDataSet)details(resultSet.getString(1)).getResponse();
-                if ( since_id == null || followed.getId() >= new Integer(since_id) )
+                UserDataSet followed = (UserDataSet)details(resultSet.getString(1)).getResponse();
+                if ( since_id == null || since_id != null && followed.getId() >= new Integer(since_id) )
                     following.add(followed);
             }
 
+            stmt.close();
             return new CustomResponse(following, CustomResponse.OK);
         } catch (SQLException e) {
             return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
         }
     }
 
-    @Override
     public CustomResponse listPosts(String email, String since, String limit, String order) {
         if (email == null || order != null && !order.equals("asc") && !order.equals("desc")) {
             return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
@@ -246,36 +262,36 @@ public class UserDAOimpl implements UserDAO{
         order = (order == null) ? "desc" : order;
 
         try (Connection connection = Main.connection.getConnection()) {
-            final List<PostDataSet> posts = new ArrayList<>();
+            List<PostDataSet> posts = new ArrayList<>();
 
-            final StringBuilder queryBuilder = new StringBuilder();
+            StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("SELECT id FROM post WHERE user = ?");
             if (since != null) queryBuilder.append( "AND date >= ?");
             queryBuilder.append(" ORDER BY date");
             if (order.equals("desc")) queryBuilder.append(" DESC");
             if (limit != null) queryBuilder.append(" LIMIT ?");
 
-            final PreparedStatement stmt = connection.prepareStatement(queryBuilder.toString());
+            PreparedStatement stmt = connection.prepareStatement(queryBuilder.toString());
             stmt.setString(1, email);
             int stmtParam = 2;
             if (since != null) stmt.setString(stmtParam++, since);
             if (limit != null) stmt.setInt(stmtParam, new Integer(limit));
+            ResultSet resultSet = stmt.executeQuery();
 
-            final ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
-                final PostDataSet post = (PostDataSet)new PostDAOimpl().details(resultSet.getString(1), new ArrayList<>()).getResponse();
+                PostDataSet post = (PostDataSet)new PostDAOimpl().details(resultSet.getString(1), new ArrayList<>()).getResponse();
                 posts.add(post);
             }
 
+            stmt.close();
             return new CustomResponse(posts, CustomResponse.OK);
         } catch (SQLException e) {
             return new CustomResponse("UNKNOWN ERROR", CustomResponse.UNKNOWN_ERROR);
         }
     }
 
-    @Override
     public CustomResponse updateProfile(String userString) {
-        final JsonNode json;
+        JsonNode json;
         try {
             json = mapper.readValue(userString, JsonNode.class);
         } catch (IOException e) {
@@ -285,16 +301,17 @@ public class UserDAOimpl implements UserDAO{
         if (!json.has("user") || !json.has("name") || !json.has("about"))
             return new CustomResponse("INCORRECT REQUEST", CustomResponse.INCORRECT_REQUEST);
 
-        final String email = json.get("user").getTextValue();
-        final String name = json.get("name").getTextValue();
-        final String about = json.get("about").getTextValue();
+        String email = json.get("user").getTextValue();
+        String name = json.get("name").getTextValue();
+        String about = json.get("about").getTextValue();
         try (Connection connection = Main.connection.getConnection()) {
-            final String query = "UPDATE user SET name=?, about=? WHERE email=?";
-            final PreparedStatement stmt = connection.prepareStatement(query);
+            String query = "UPDATE user SET name=?, about=? WHERE email=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, name);
             stmt.setString(2, about);
             stmt.setString(3, email);
             stmt.executeUpdate();
+            stmt.close();
 
             return details(email);
         } catch (SQLException e) {
@@ -304,47 +321,46 @@ public class UserDAOimpl implements UserDAO{
 
 
     public void setFollowers(Connection connection, UserDataSet user) throws SQLException {
-        final ArrayList<String> followers = new ArrayList<>();
+        ArrayList<String> followers = new ArrayList<>();
 
-        final String query = "SELECT follower FROM follows WHERE followed = ?;";
-        final PreparedStatement stmt = connection.prepareStatement(query);
+        String query = "SELECT follower FROM follows WHERE followed = ?;";
+        PreparedStatement stmt = connection.prepareStatement(query);
         stmt.setString(1, user.getEmail());
-
-        final ResultSet resultSet = stmt.executeQuery();
+        ResultSet resultSet = stmt.executeQuery();
         while (resultSet.next()) {
             followers.add(resultSet.getString("follower"));
         }
-
+        stmt.close();
         user.setFollowers(followers);
     }
 
     public void setFollowing(Connection connection, UserDataSet user) throws SQLException {
-        final ArrayList<String> following = new ArrayList<>();
+        ArrayList<String> following = new ArrayList<>();
 
-        final String query = "SELECT followed FROM follows WHERE follower = ?;";
-        final PreparedStatement stmt = connection.prepareStatement(query);
+        String query = "SELECT followed FROM follows WHERE follower = ?;";
+        PreparedStatement stmt = connection.prepareStatement(query);
         stmt.setString(1, user.getEmail());
+        ResultSet resultSet = stmt.executeQuery();
 
-        final ResultSet resultSet = stmt.executeQuery();
         while (resultSet.next()) {
             following.add(resultSet.getString("followed"));
         }
-
+        stmt.close();
         user.setFollowing(following);
     }
 
     public void setSubscriptions(Connection connection, UserDataSet user) throws SQLException {
-        final ArrayList<Integer> subscriptions = new ArrayList<>();
+        ArrayList<Integer> subscriptions = new ArrayList<>();
 
-        final String query = "SELECT thread FROM subscribed WHERE user = ?;";
-        final PreparedStatement stmt = connection.prepareStatement(query);
+        String query = "SELECT thread FROM subscribed WHERE user = ?;";
+        PreparedStatement stmt = connection.prepareStatement(query);
         stmt.setString(1, user.getEmail());
+        ResultSet resultSet = stmt.executeQuery();
 
-        final ResultSet resultSet = stmt.executeQuery();
         while (resultSet.next()) {
             subscriptions.add(resultSet.getInt("thread"));
         }
-
+        stmt.close();
         user.setSubscriptions(subscriptions);
     }
 }

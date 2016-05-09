@@ -7,35 +7,35 @@ import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.impl.GenericObjectPool;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Created by parallels on 3/20/16.
  */
-@SuppressWarnings("OverlyBroadThrowsClause")
 public class Connector {
     public static final String DRIVER = "com.mysql.jdbc.Driver";
+    public static final String URL_DB = "jdbc:mysql://localhost:3306/TPForum?autoreconnect=true&useUnicode=yes&characterEncoding=UTF-8";
+    public static final String USER_DB = "Alexandra";
+    public static final String PASSWORD_DB = "secret";
 
-    public static final String URL = "jdbc:mysql://localhost:3306/TPForum?autoreconnect=true&useUnicode=yes&characterEncoding=UTF-8";
+    private GenericObjectPool connectionPool = null;
 
-    public static final String USER = "Alexandra";
-
-    public static final String PASSWORD = "secret";
-
-    @SuppressWarnings("UnusedAssignment")
     public DataSource createSource() throws Exception
     {
         Class.forName(DRIVER).newInstance();
-        final GenericObjectPool connectionPool = new GenericObjectPool();
+        connectionPool = new GenericObjectPool();
         connectionPool.setMaxActive(100);
-        final ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(URL, USER, PASSWORD);
+        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(URL_DB, USER_DB, PASSWORD_DB);
 
-        final PoolableConnectionFactory pcf = new PoolableConnectionFactory(
-                connectionFactory,
-                connectionPool,
-                null,
-                null,
-                false,
-                true);
+        PoolableConnectionFactory pcf = new PoolableConnectionFactory(connectionFactory, connectionPool,
+                        null, null, false, true);
         return new PoolingDataSource(connectionPool);
+    }
+
+    public GenericObjectPool getConnectionPool() {
+        return connectionPool;
     }
 }

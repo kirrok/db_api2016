@@ -10,26 +10,17 @@ import java.sql.SQLException;
 /**
  * Created by parallels on 3/20/16.
  */
-@SuppressWarnings("unused")
 public class UserDataSet {
     private int id;
-
     private String email;
-
     private String username;
-
     private String name;
-
     private String about;
-
     private boolean isAnonymous = false;
-
     @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private ArrayList<String> followers;
-
     @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private ArrayList<String> following;
-
     @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private ArrayList<Integer> subscriptions;
 
@@ -49,8 +40,8 @@ public class UserDataSet {
 
     public UserDataSet(int id, String email, String username, String name, String about,
                        boolean isAnonymous) {
-        this(id, email, username, name, about, isAnonymous, new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>());
+        this(id, email, username, name, about, isAnonymous, new ArrayList<String>(),
+                new ArrayList<String>(), new ArrayList<Integer>());
 
     }
 
@@ -74,38 +65,21 @@ public class UserDataSet {
     }
 
     public int getId() { return id; }
-
     public void setId(int id ) { this.id = id; }
-
     public String getEmail() { return email; }
-
     public void setEmail(String email) { this.email = email; }
-
     public String getUsername() { return username; }
-
     public void setUsername(String username ) { this.username = username; }
-
     public String getName() { return name; }
-
     public void setName(String name) { this.name = name; }
-
     public String getAbout() { return about; }
-
     public void setAbout(String about) { this.about = about; }
-
     public boolean getIsAnonymous() { return isAnonymous; }
-
     public void setIsAnonymous(boolean isAnonymous) { this.isAnonymous = isAnonymous; }
-
     public ArrayList<String> getFollowers() { return followers; }
-
     public void setFollowers(ArrayList<String> followers) { this.followers = followers; }
-
     public ArrayList<String> getFollowing() { return following; }
-
     public void setFollowing(ArrayList<String> following) { this.following = following; }
-
     public ArrayList<Integer> getSubscriptions() { return subscriptions; }
-
     public void setSubscriptions(ArrayList<Integer> subscriptions) { this.subscriptions = subscriptions; }
 }

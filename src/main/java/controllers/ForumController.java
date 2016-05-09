@@ -1,25 +1,34 @@
 package controllers;
 
 import dao.ForumDAO;
+import dao.PostDAO;
+import dao.ThreadDAO;
+import dao.UserDAO;
 import dao.impl.ForumDAOimpl;
+import dao.impl.PostDAOimpl;
+import dao.impl.ThreadDAOimpl;
+import dao.impl.UserDAOimpl;
+import dataSets.ForumDataSet;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ObjectNode;
 
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by parallels on 3/20/16.
  */
-@SuppressWarnings("OverlyBroadThrowsClause")
 @Singleton
 @Path("/forum")
 public class ForumController {
-    private final ObjectMapper mapper;
-
+    private ObjectMapper mapper;
     private final ForumDAO forumDAO;
 
     public ForumController() {
@@ -32,8 +41,8 @@ public class ForumController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("create")
     public Response create(String forumString) throws IOException {
-        final CustomResponse response = forumDAO.create(forumString);
-        final String json = mapper.writeValueAsString(response);
+        CustomResponse response = forumDAO.create(forumString);
+        String json = mapper.writeValueAsString(response);
         return Response.ok().entity(json).build();
     }
 
@@ -42,8 +51,9 @@ public class ForumController {
     @Path("details")
     public Response details(@QueryParam("forum") String forumShortName,
                             @QueryParam("related") final List<String> related) throws IOException {
-        final CustomResponse response = forumDAO.details(forumShortName, related);
-        final String json = mapper.writeValueAsString(response);
+
+        CustomResponse response = forumDAO.details(forumShortName, related);
+        String json = mapper.writeValueAsString(response);
         return Response.ok().entity(json).build();
     }
 
@@ -55,9 +65,8 @@ public class ForumController {
                          @QueryParam("since") String since,
                          @QueryParam("limit") String limit,
                          @QueryParam("order") String order) throws IOException {
-        final CustomResponse response = forumDAO.listPosts(forumShortName, related, since, limit, order);
-        final String json = mapper.writeValueAsString(response);
-        return Response.ok(json).build();
+        CustomResponse response = forumDAO.listPosts(forumShortName, related, since, limit, order);
+        return Response.ok(mapper.writeValueAsString(response)).build();
     }
 
     @GET
@@ -68,12 +77,11 @@ public class ForumController {
                               @QueryParam("since") String since,
                               @QueryParam("limit") String limit,
                               @QueryParam("order") String order) throws IOException {
-        final CustomResponse response = forumDAO.listThreads(forumShortName, related, since, limit, order);
-        final String json = mapper.writeValueAsString(response);
+        CustomResponse response = forumDAO.listThreads(forumShortName, related, since, limit, order);
+        String json = mapper.writeValueAsString(response);
         return Response.ok().entity(json).build();
     }
 
-    @SuppressWarnings("MethodParameterNamingConvention")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("listUsers")
@@ -81,8 +89,8 @@ public class ForumController {
                                 @QueryParam("since_id") String since_id,
                                 @QueryParam("limit") String limit,
                                 @QueryParam("order") String order) throws IOException {
-        final CustomResponse response = forumDAO.listUsers(forumShortName, since_id, limit, order);
-        final String json = mapper.writeValueAsString(response);
+        CustomResponse response = forumDAO.listUsers(forumShortName, since_id, limit, order);
+        String json = mapper.writeValueAsString(response);
         return Response.ok().entity(json).build();
     }
 

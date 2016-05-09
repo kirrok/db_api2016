@@ -11,20 +11,20 @@ import java.net.InetSocketAddress;
 /**
  * Created by a.serebrennikova
  */
-@SuppressWarnings("OverlyBroadThrowsClause")
 public class Main {
-    private static final int PORT = 8081;
+    private final static int PORT = 8081;
 
-    @SuppressWarnings("PublicField")
+    private static Connector connector;
+
     public static DataSource connection;
 
     public static void main(String[] args) throws Exception {
         System.out.append("Starting at port: ").append(String.valueOf(PORT)).append('\n');
 
-        final Connector connector = new Connector();
+        connector = new Connector();
         connection = connector.createSource();
 
-        final InetSocketAddress address = new InetSocketAddress("0.0.0.0", PORT);
+        InetSocketAddress address = new InetSocketAddress("0.0.0.0", PORT);
         final Server server = new Server(address);
         final ServletContextHandler contextHandler = new ServletContextHandler(server, "/db/api/", ServletContextHandler.SESSIONS);
 
