@@ -2,6 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="73057819-3a2c-439c-8e15-e3193a9c5ed5" name="Default" comment="beautiful code">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/executor/PreparedExecutor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/executor/TExecutor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/handlers/TResultHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/executor/PreparedExecutor.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/executor/TExecutor.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/handlers/TResultHandler.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/TPForumAPI-1.0.jar" afterPath="$PROJECT_DIR$/target/TPForumAPI-1.0.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controllers/CommonController.class" afterPath="$PROJECT_DIR$/target/classes/controllers/CommonController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controllers/CustomResponse.class" afterPath="$PROJECT_DIR$/target/classes/controllers/CustomResponse.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controllers/ForumController.class" afterPath="$PROJECT_DIR$/target/classes/controllers/ForumController.class" />
@@ -14,19 +21,32 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/dao/impl/UserDAOimpl.class" afterPath="$PROJECT_DIR$/target/classes/dao/impl/UserDAOimpl.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/dataSets/ForumDataSet.class" afterPath="$PROJECT_DIR$/target/classes/dataSets/ForumDataSet.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/dataSets/PostDataSet.class" afterPath="$PROJECT_DIR$/target/classes/dataSets/PostDataSet.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/dataSets/ThreadDataSet.class" afterPath="$PROJECT_DIR$/target/classes/dataSets/ThreadDataSet.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/dataSets/UserDataSet.class" afterPath="$PROJECT_DIR$/target/classes/dataSets/UserDataSet.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/Connector.class" afterPath="$PROJECT_DIR$/target/classes/main/Connector.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/Main.class" afterPath="$PROJECT_DIR$/target/classes/main/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/MyApplication.class" afterPath="$PROJECT_DIR$/target/classes/main/MyApplication.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/original-TPForumAPI-1.0.jar" afterPath="$PROJECT_DIR$/target/original-TPForumAPI-1.0.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/CommonController.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/CommonController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/CustomResponse.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/CustomResponse.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/ForumController.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/ForumController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/PostController.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/PostController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/ThreadController.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/ThreadController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/UserController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dao/ForumDAO.java" afterPath="$PROJECT_DIR$/src/main/java/dao/ForumDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dao/PostDAO.java" afterPath="$PROJECT_DIR$/src/main/java/dao/PostDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dao/UserDAO.java" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dao/impl/ForumDAOimpl.java" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/ForumDAOimpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dao/impl/PostDAOimpl.java" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/PostDAOimpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dao/impl/ThreadDAOimpl.java" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/ThreadDAOimpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dao/impl/UserDAOimpl.java" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/UserDAOimpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dataSets/ForumDataSet.java" afterPath="$PROJECT_DIR$/src/main/java/dataSets/ForumDataSet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dataSets/PostDataSet.java" afterPath="$PROJECT_DIR$/src/main/java/dataSets/PostDataSet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dataSets/ThreadDataSet.java" afterPath="$PROJECT_DIR$/src/main/java/dataSets/ThreadDataSet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/dataSets/UserDataSet.java" afterPath="$PROJECT_DIR$/src/main/java/dataSets/UserDataSet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/main/Connector.java" afterPath="$PROJECT_DIR$/src/main/java/main/Connector.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tests/tests/me_httperf_scenario" afterPath="$PROJECT_DIR$/src/tests/tests/me_httperf_scenario" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/main/MyApplication.java" afterPath="$PROJECT_DIR$/src/main/java/main/MyApplication.java" />
     </list>
     <ignored path="TPForumAPI.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,12 +79,10 @@
       <file leaf-file-name="ForumDAOimpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/dao/impl/ForumDAOimpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3690">
-              <caret line="259" column="25" selection-start-line="259" selection-start-column="25" selection-end-line="259" selection-end-column="25" />
+            <state relative-caret-position="3675">
+              <caret line="258" column="9" selection-start-line="258" selection-start-column="9" selection-end-line="258" selection-end-column="9" />
               <folding>
-                <marker date="1462743256000" expanded="true" signature="1508:1534" placeholder="SELECT COUNT... forum" />
-                <marker date="1462743256000" expanded="true" signature="2250:2306" placeholder="INSERT INTO forum... " />
-                <marker date="1462743256000" expanded="true" signature="4018:4056" placeholder="SELECT * FRO... forum" />
+                <marker date="1462819210000" expanded="true" signature="26:201" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -73,8 +91,8 @@
       <file leaf-file-name="PostDataSet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/dataSets/PostDataSet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="57" column="83" selection-start-line="57" selection-start-column="83" selection-end-line="57" selection-end-column="83" />
+            <state relative-caret-position="600">
+              <caret line="42" column="83" selection-start-line="42" selection-start-column="83" selection-end-line="42" selection-end-column="83" />
               <folding>
                 <element signature="imports" expanded="false" />
               </folding>
@@ -97,31 +115,30 @@
       <file leaf-file-name="PostDAOimpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/dao/impl/PostDAOimpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="111" column="13" selection-start-line="95" selection-start-column="12" selection-end-line="111" selection-end-column="13" />
+            <state relative-caret-position="375">
+              <caret line="111" column="13" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1462743256000" expanded="true" signature="1361:1385" placeholder="SELECT posts... thread" />
-                <marker date="1462743256000" expanded="true" signature="2595:2742" placeholder="INSERT INTO post... " />
-                <marker date="1462743256000" expanded="true" signature="3656:3687" placeholder="SELECT COUNT... user_forum" />
-                <marker date="1462743256000" expanded="true" signature="3656:3712" placeholder="SELECT COUNT... user_forum" />
-                <marker date="1462743256000" expanded="true" signature="4150:4198" placeholder="INSERT INTO user_forum... " />
-                <marker date="1462743256000" expanded="true" signature="4659:4698" placeholder="UPDATE post " />
-                <marker date="1462743256000" expanded="true" signature="4990:5038" placeholder="SELECT first... post" />
-                <marker date="1462743256000" expanded="true" signature="5494:5546" placeholder="UPDATE post " />
-                <marker date="1462743256000" expanded="true" signature="6106:6148" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="7142:7171" placeholder="SELECT * FRO... post" />
-                <marker date="1462743256000" expanded="true" signature="8915:8953" placeholder="SELECT * FRO... forum" />
-                <marker date="1462743256000" expanded="true" signature="8991:9022" placeholder="SELECT * FRO... thread" />
-                <marker date="1462743256000" expanded="true" signature="9532:9564" placeholder="SELECT * FRO... post" />
-                <marker date="1462743256000" expanded="true" signature="9594:9627" placeholder="SELECT * FRO... post" />
-                <marker date="1462743256000" expanded="true" signature="11347:11392" placeholder="SELECT threa... post" />
-                <marker date="1462743256000" expanded="true" signature="11849:11887" placeholder="UPDATE post " />
-                <marker date="1462743256000" expanded="true" signature="12322:12364" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="12423:12465" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="13706:13742" placeholder="UPDATE post " />
-                <marker date="1462743256000" expanded="true" signature="14961:15018" placeholder="UPDATE post " />
-                <marker date="1462743256000" expanded="true" signature="15062:15125" placeholder="UPDATE post " />
+                <marker date="1462819210000" expanded="true" signature="1361:1385" placeholder="SELECT posts... thread" />
+                <marker date="1462819210000" expanded="true" signature="2588:2735" placeholder="INSERT INTO post... " />
+                <marker date="1462819210000" expanded="true" signature="3655:3711" placeholder="SELECT COUNT... user_forum" />
+                <marker date="1462819210000" expanded="true" signature="4173:4221" placeholder="INSERT INTO user_forum... " />
+                <marker date="1462819210000" expanded="true" signature="4688:4727" placeholder="UPDATE post " />
+                <marker date="1462819210000" expanded="true" signature="5019:5067" placeholder="SELECT first... post" />
+                <marker date="1462819210000" expanded="true" signature="5523:5575" placeholder="UPDATE post " />
+                <marker date="1462819210000" expanded="true" signature="6135:6177" placeholder="UPDATE threa... " />
+                <marker date="1462819210000" expanded="true" signature="7159:7188" placeholder="SELECT * FRO... post" />
+                <marker date="1462819210000" expanded="true" signature="8963:9001" placeholder="SELECT * FRO... forum" />
+                <marker date="1462819210000" expanded="true" signature="9039:9070" placeholder="SELECT * FRO... thread" />
+                <marker date="1462819210000" expanded="true" signature="9646:9678" placeholder="SELECT * FRO... post" />
+                <marker date="1462819210000" expanded="true" signature="9708:9741" placeholder="SELECT * FRO... post" />
+                <marker date="1462819210000" expanded="true" signature="11463:11508" placeholder="SELECT threa... post" />
+                <marker date="1462819210000" expanded="true" signature="11964:12002" placeholder="UPDATE post " />
+                <marker date="1462819210000" expanded="true" signature="12437:12479" placeholder="UPDATE threa... " />
+                <marker date="1462819210000" expanded="true" signature="12538:12580" placeholder="UPDATE threa... " />
+                <marker date="1462819210000" expanded="true" signature="13823:13859" placeholder="UPDATE post " />
+                <marker date="1462819210000" expanded="true" signature="15078:15135" placeholder="UPDATE post " />
+                <marker date="1462819210000" expanded="true" signature="15179:15242" placeholder="UPDATE post " />
               </folding>
             </state>
           </provider>
@@ -131,9 +148,9 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/main/MyApplication.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="240">
-              <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+              <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <marker date="1462819130000" expanded="false" signature="22:158" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -143,9 +160,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/main/Connector.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="375">
-              <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
+              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="false" />
+                <marker date="1462819130000" expanded="true" signature="1401:1408" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -154,30 +172,9 @@
       <file leaf-file-name="ThreadDAOimpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/dao/impl/ThreadDAOimpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5955">
-              <caret line="410" column="25" selection-start-line="410" selection-start-column="25" selection-end-line="410" selection-end-column="25" />
-              <folding>
-                <element signature="e#633#634#0" expanded="false" />
-                <element signature="e#681#682#0" expanded="false" />
-                <marker date="1462743256000" expanded="true" signature="1421:1466" placeholder="SELECT COUNT... thread" />
-                <marker date="1462743256000" expanded="true" signature="2609:2714" placeholder="INSERT INTO thread... " />
-                <marker date="1462743256000" expanded="true" signature="4203:4234" placeholder="SELECT * FRO... thread" />
-                <marker date="1462743256000" expanded="true" signature="5846:5887" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="6880:6921" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="7876:7914" placeholder="SELECT * FRO... forum" />
-                <marker date="1462743256000" expanded="true" signature="7950:7982" placeholder="SELECT * FRO... user" />
-                <marker date="1462743256000" expanded="true" signature="8515:8549" placeholder="SELECT * FRO... thread" />
-                <marker date="1462743256000" expanded="true" signature="8577:8610" placeholder="SELECT * FRO... thread" />
-                <marker date="1462743256000" expanded="true" signature="10508:10559" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="10779:10823" placeholder="UPDATE post " />
-                <marker date="1462743256000" expanded="true" signature="11800:11892" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="11838:11878" placeholder="SELECT COUNT... post" />
-                <marker date="1462743256000" expanded="true" signature="12151:12195" placeholder="UPDATE post " />
-                <marker date="1462743256000" expanded="true" signature="14443:14495" placeholder="DELETE FROM " />
-                <marker date="1462743256000" expanded="true" signature="15698:15744" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="17010:17069" placeholder="UPDATE threa... " />
-                <marker date="1462743256000" expanded="true" signature="17113:17178" placeholder="UPDATE threa... " />
-              </folding>
+            <state relative-caret-position="5985">
+              <caret line="410" column="0" selection-start-line="410" selection-start-column="0" selection-end-line="410" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -185,18 +182,10 @@
       <file leaf-file-name="UserDAOimpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/dao/impl/UserDAOimpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-203">
-              <caret line="308" column="25" selection-start-line="308" selection-start-column="25" selection-end-line="308" selection-end-column="25" />
+            <state relative-caret-position="-158">
+              <caret line="309" column="0" selection-start-line="309" selection-start-column="0" selection-end-line="309" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1462743256000" expanded="true" signature="1456:1481" placeholder="SELECT COUNT... user" />
-                <marker date="1462743256000" expanded="true" signature="1860:1894" placeholder="SELECT * FRO... user" />
-                <marker date="1462743256000" expanded="true" signature="3481:3559" placeholder="INSERT INTO user... " />
-                <marker date="1462743256000" expanded="true" signature="6416:6467" placeholder="DELETE FROM " />
-                <marker date="1462743256000" expanded="true" signature="12875:12920" placeholder="UPDATE user " />
-                <marker date="1462743256000" expanded="true" signature="13536:13583" placeholder="SELECT follo... follows" />
-                <marker date="1462743256000" expanded="true" signature="14101:14148" placeholder="SELECT follo... follows" />
-                <marker date="1462743256000" expanded="true" signature="14675:14719" placeholder="SELECT threa... subscribed" />
               </folding>
             </state>
           </provider>
@@ -220,7 +209,7 @@
             <state relative-caret-position="330">
               <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
               <folding>
-                <marker date="1458726170000" expanded="true" signature="4164:4193" placeholder="select * fro... engines" />
+                <marker date="1462797721000" expanded="true" signature="4164:4193" placeholder="select * fro... engines" />
               </folding>
             </state>
           </provider>
@@ -265,9 +254,9 @@
         <option value="$PROJECT_DIR$/src/main/java/dataSets/PostDataSet.java" />
         <option value="$PROJECT_DIR$/src/main/java/main/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/dao/impl/ForumDAOimpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/dao/impl/PostDAOimpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/dao/impl/ThreadDAOimpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/dao/impl/UserDAOimpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dao/impl/PostDAOimpl.java" />
       </list>
     </option>
   </component>
@@ -888,7 +877,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="1" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1256,6 +1245,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="29" column="31" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1294,6 +1284,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1301,6 +1292,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-761">
           <caret line="24" column="3" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1343,19 +1335,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
           <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
-          <folding>
-            <element signature="e#109#136#0" expanded="false" />
-            <element signature="e#171#216#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main/Connector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
-          <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="false" />
+            <marker date="1462819130000" expanded="true" signature="1401:1408" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1375,7 +1365,7 @@
         <state relative-caret-position="330">
           <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
           <folding>
-            <marker date="1458726170000" expanded="true" signature="4164:4193" placeholder="select * fro... engines" />
+            <marker date="1462797721000" expanded="true" signature="4164:4193" placeholder="select * fro... engines" />
           </folding>
         </state>
       </provider>
@@ -1389,8 +1379,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/dataSets/PostDataSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="57" column="83" selection-start-line="57" selection-start-column="83" selection-end-line="57" selection-end-column="83" />
+        <state relative-caret-position="600">
+          <caret line="42" column="83" selection-start-line="42" selection-start-column="83" selection-end-line="42" selection-end-column="83" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
@@ -1400,9 +1390,9 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/main/MyApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <marker date="1462819130000" expanded="false" signature="22:158" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1419,90 +1409,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/dao/impl/ForumDAOimpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3690">
-          <caret line="259" column="25" selection-start-line="259" selection-start-column="25" selection-end-line="259" selection-end-column="25" />
+        <state relative-caret-position="3675">
+          <caret line="258" column="9" selection-start-line="258" selection-start-column="9" selection-end-line="258" selection-end-column="9" />
           <folding>
-            <marker date="1462743256000" expanded="true" signature="1508:1534" placeholder="SELECT COUNT... forum" />
-            <marker date="1462743256000" expanded="true" signature="2250:2306" placeholder="INSERT INTO forum... " />
-            <marker date="1462743256000" expanded="true" signature="4018:4056" placeholder="SELECT * FRO... forum" />
+            <marker date="1462819210000" expanded="true" signature="26:201" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/dao/impl/ThreadDAOimpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5955">
-          <caret line="410" column="25" selection-start-line="410" selection-start-column="25" selection-end-line="410" selection-end-column="25" />
-          <folding>
-            <element signature="e#633#634#0" expanded="false" />
-            <element signature="e#681#682#0" expanded="false" />
-            <marker date="1462743256000" expanded="true" signature="1421:1466" placeholder="SELECT COUNT... thread" />
-            <marker date="1462743256000" expanded="true" signature="2609:2714" placeholder="INSERT INTO thread... " />
-            <marker date="1462743256000" expanded="true" signature="4203:4234" placeholder="SELECT * FRO... thread" />
-            <marker date="1462743256000" expanded="true" signature="5846:5887" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="6880:6921" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="7876:7914" placeholder="SELECT * FRO... forum" />
-            <marker date="1462743256000" expanded="true" signature="7950:7982" placeholder="SELECT * FRO... user" />
-            <marker date="1462743256000" expanded="true" signature="8515:8549" placeholder="SELECT * FRO... thread" />
-            <marker date="1462743256000" expanded="true" signature="8577:8610" placeholder="SELECT * FRO... thread" />
-            <marker date="1462743256000" expanded="true" signature="10508:10559" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="10779:10823" placeholder="UPDATE post " />
-            <marker date="1462743256000" expanded="true" signature="11800:11892" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="11838:11878" placeholder="SELECT COUNT... post" />
-            <marker date="1462743256000" expanded="true" signature="12151:12195" placeholder="UPDATE post " />
-            <marker date="1462743256000" expanded="true" signature="14443:14495" placeholder="DELETE FROM " />
-            <marker date="1462743256000" expanded="true" signature="15698:15744" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="17010:17069" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="17113:17178" placeholder="UPDATE threa... " />
-          </folding>
+        <state relative-caret-position="5985">
+          <caret line="410" column="0" selection-start-line="410" selection-start-column="0" selection-end-line="410" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/dao/impl/UserDAOimpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-203">
-          <caret line="308" column="25" selection-start-line="308" selection-start-column="25" selection-end-line="308" selection-end-column="25" />
+        <state relative-caret-position="-158">
+          <caret line="309" column="0" selection-start-line="309" selection-start-column="0" selection-end-line="309" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462743256000" expanded="true" signature="1456:1481" placeholder="SELECT COUNT... user" />
-            <marker date="1462743256000" expanded="true" signature="1860:1894" placeholder="SELECT * FRO... user" />
-            <marker date="1462743256000" expanded="true" signature="3481:3559" placeholder="INSERT INTO user... " />
-            <marker date="1462743256000" expanded="true" signature="6416:6467" placeholder="DELETE FROM " />
-            <marker date="1462743256000" expanded="true" signature="12875:12920" placeholder="UPDATE user " />
-            <marker date="1462743256000" expanded="true" signature="13536:13583" placeholder="SELECT follo... follows" />
-            <marker date="1462743256000" expanded="true" signature="14101:14148" placeholder="SELECT follo... follows" />
-            <marker date="1462743256000" expanded="true" signature="14675:14719" placeholder="SELECT threa... subscribed" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/dao/impl/PostDAOimpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="111" column="13" selection-start-line="95" selection-start-column="12" selection-end-line="111" selection-end-column="13" />
+        <state relative-caret-position="375">
+          <caret line="111" column="13" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462743256000" expanded="true" signature="1361:1385" placeholder="SELECT posts... thread" />
-            <marker date="1462743256000" expanded="true" signature="2595:2742" placeholder="INSERT INTO post... " />
-            <marker date="1462743256000" expanded="true" signature="3656:3687" placeholder="SELECT COUNT... user_forum" />
-            <marker date="1462743256000" expanded="true" signature="3656:3712" placeholder="SELECT COUNT... user_forum" />
-            <marker date="1462743256000" expanded="true" signature="4150:4198" placeholder="INSERT INTO user_forum... " />
-            <marker date="1462743256000" expanded="true" signature="4659:4698" placeholder="UPDATE post " />
-            <marker date="1462743256000" expanded="true" signature="4990:5038" placeholder="SELECT first... post" />
-            <marker date="1462743256000" expanded="true" signature="5494:5546" placeholder="UPDATE post " />
-            <marker date="1462743256000" expanded="true" signature="6106:6148" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="7142:7171" placeholder="SELECT * FRO... post" />
-            <marker date="1462743256000" expanded="true" signature="8915:8953" placeholder="SELECT * FRO... forum" />
-            <marker date="1462743256000" expanded="true" signature="8991:9022" placeholder="SELECT * FRO... thread" />
-            <marker date="1462743256000" expanded="true" signature="9532:9564" placeholder="SELECT * FRO... post" />
-            <marker date="1462743256000" expanded="true" signature="9594:9627" placeholder="SELECT * FRO... post" />
-            <marker date="1462743256000" expanded="true" signature="11347:11392" placeholder="SELECT threa... post" />
-            <marker date="1462743256000" expanded="true" signature="11849:11887" placeholder="UPDATE post " />
-            <marker date="1462743256000" expanded="true" signature="12322:12364" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="12423:12465" placeholder="UPDATE threa... " />
-            <marker date="1462743256000" expanded="true" signature="13706:13742" placeholder="UPDATE post " />
-            <marker date="1462743256000" expanded="true" signature="14961:15018" placeholder="UPDATE post " />
-            <marker date="1462743256000" expanded="true" signature="15062:15125" placeholder="UPDATE post " />
+            <marker date="1462819210000" expanded="true" signature="1361:1385" placeholder="SELECT posts... thread" />
+            <marker date="1462819210000" expanded="true" signature="2588:2735" placeholder="INSERT INTO post... " />
+            <marker date="1462819210000" expanded="true" signature="3655:3711" placeholder="SELECT COUNT... user_forum" />
+            <marker date="1462819210000" expanded="true" signature="4173:4221" placeholder="INSERT INTO user_forum... " />
+            <marker date="1462819210000" expanded="true" signature="4688:4727" placeholder="UPDATE post " />
+            <marker date="1462819210000" expanded="true" signature="5019:5067" placeholder="SELECT first... post" />
+            <marker date="1462819210000" expanded="true" signature="5523:5575" placeholder="UPDATE post " />
+            <marker date="1462819210000" expanded="true" signature="6135:6177" placeholder="UPDATE threa... " />
+            <marker date="1462819210000" expanded="true" signature="7159:7188" placeholder="SELECT * FRO... post" />
+            <marker date="1462819210000" expanded="true" signature="8963:9001" placeholder="SELECT * FRO... forum" />
+            <marker date="1462819210000" expanded="true" signature="9039:9070" placeholder="SELECT * FRO... thread" />
+            <marker date="1462819210000" expanded="true" signature="9646:9678" placeholder="SELECT * FRO... post" />
+            <marker date="1462819210000" expanded="true" signature="9708:9741" placeholder="SELECT * FRO... post" />
+            <marker date="1462819210000" expanded="true" signature="11463:11508" placeholder="SELECT threa... post" />
+            <marker date="1462819210000" expanded="true" signature="11964:12002" placeholder="UPDATE post " />
+            <marker date="1462819210000" expanded="true" signature="12437:12479" placeholder="UPDATE threa... " />
+            <marker date="1462819210000" expanded="true" signature="12538:12580" placeholder="UPDATE threa... " />
+            <marker date="1462819210000" expanded="true" signature="13823:13859" placeholder="UPDATE post " />
+            <marker date="1462819210000" expanded="true" signature="15078:15135" placeholder="UPDATE post " />
+            <marker date="1462819210000" expanded="true" signature="15179:15242" placeholder="UPDATE post " />
           </folding>
         </state>
       </provider>
