@@ -2,12 +2,7 @@ package controllers;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Created by parallels on 3/20/16.
- */
-@SuppressWarnings("unused")
 public class CustomResponse {
-    @SuppressWarnings("ConstantNamingConvention")
     public static final int OK = 0;
 
     public static final int NOT_FOUND = 1;

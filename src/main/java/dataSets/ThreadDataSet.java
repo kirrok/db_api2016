@@ -5,10 +5,6 @@ import org.codehaus.jackson.JsonNode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by parallels on 3/22/16.
- */
-@SuppressWarnings("unused")
 public class ThreadDataSet {
     private int id;
 

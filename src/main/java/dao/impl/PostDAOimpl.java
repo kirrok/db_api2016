@@ -12,9 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by parallels on 3/20/16.
- */
 @SuppressWarnings({"OverlyComplexBooleanExpression", "JDBCResourceOpenedButNotSafelyClosed", "OverlyBroadCatchBlock", "OverlyComplexMethod"})
 public class PostDAOimpl implements PostDAO{
     final ObjectMapper mapper;

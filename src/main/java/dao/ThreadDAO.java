@@ -4,9 +4,6 @@ import controllers.CustomResponse;
 
 import java.util.List;
 
-/**
- * Created by parallels on 3/20/16.
- */
 public interface ThreadDAO {
     void truncateTable();
 

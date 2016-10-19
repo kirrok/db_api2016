@@ -13,10 +13,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by parallels on 3/20/16.
- */
-@SuppressWarnings({"OverlyComplexBooleanExpression", "OverlyBroadCatchBlock", "OverlyComplexMethod", "JDBCResourceOpenedButNotSafelyClosed"})
 public class ThreadDAOimpl implements ThreadDAO {
     final ObjectMapper mapper;
 

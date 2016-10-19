@@ -7,9 +7,6 @@ import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by a.serebrennikova
- */
 @ApplicationPath("db/api")
 public class MyApplication extends Application {
     @Override

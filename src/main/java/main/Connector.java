@@ -8,10 +8,6 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 
 import javax.sql.DataSource;
 
-/**
- * Created by parallels on 3/20/16.
- */
-@SuppressWarnings("OverlyBroadThrowsClause")
 public class Connector {
     public static final String DRIVER = "com.mysql.jdbc.Driver";
 
@@ -21,7 +17,6 @@ public class Connector {
 
     public static final String PASSWORD = "1";
 
-    @SuppressWarnings("UnusedAssignment")
     public DataSource createSource() throws Exception
     {
         Class.forName(DRIVER).newInstance();

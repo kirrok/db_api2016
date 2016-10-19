@@ -3,10 +3,6 @@ package dataSets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by parallels on 3/20/16.
- */
-@SuppressWarnings({"unused", "InstanceMethodNamingConvention", "InstanceVariableNamingConvention"})
 public class ForumDataSet {
     private int id;
 

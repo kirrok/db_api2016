@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by parallels on 3/20/16.
- */
-@SuppressWarnings("unused")
 public class UserDataSet {
     private int id;
 

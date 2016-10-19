@@ -15,9 +15,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-/**
- * Created by parallels on 3/20/16.
- */
 @SuppressWarnings({"OverlyComplexBooleanExpression", "OverlyComplexMethod", "JDBCResourceOpenedButNotSafelyClosed", "OverlyBroadCatchBlock"})
 public class ForumDAOimpl implements ForumDAO{
     private final ObjectMapper mapper;

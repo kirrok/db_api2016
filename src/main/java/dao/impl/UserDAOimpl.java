@@ -13,10 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by parallels on 3/20/16.
- */
-@SuppressWarnings({"OverlyComplexBooleanExpression", "OverlyComplexMethod", "JDBCResourceOpenedButNotSafelyClosed", "OverlyBroadCatchBlock"})
+
 public class UserDAOimpl implements UserDAO{
     final ObjectMapper mapper;
 

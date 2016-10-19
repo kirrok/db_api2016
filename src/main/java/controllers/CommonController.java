@@ -18,9 +18,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by parallels on 3/20/16.
- */
 @SuppressWarnings("OverlyBroadThrowsClause")
 @Singleton
 @Path("/")

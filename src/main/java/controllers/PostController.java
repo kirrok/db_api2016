@@ -11,9 +11,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by parallels on 3/21/16.
- */
+
 @SuppressWarnings("OverlyBroadThrowsClause")
 @Singleton
 @Path("/post")
