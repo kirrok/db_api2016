@@ -17,9 +17,9 @@ public class Connector {
 
     public static final String URL = "jdbc:mysql://localhost:3306/TPForum?autoreconnect=true&useUnicode=yes&characterEncoding=UTF-8";
 
-    public static final String USER = "Alexandra";
+    public static final String USER = "root";
 
-    public static final String PASSWORD = "secret";
+    public static final String PASSWORD = "1";
 
     @SuppressWarnings("UnusedAssignment")
     public DataSource createSource() throws Exception

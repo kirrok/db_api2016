@@ -29,7 +29,7 @@ public class ForumDataSet {
         this(-1, name, short_name, user);
     }
 
-    public ForumDataSet(ResultSet resultSet) throws SQLException{
+    public ForumDataSet(ResultSet resultSet) throws SQLException {
         this(
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
@@ -38,20 +38,36 @@ public class ForumDataSet {
         );
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int id) { this.id = id;}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getShort_name() { return short_name; }
+    public String getShort_name() {
+        return short_name;
+    }
 
     @SuppressWarnings("MethodParameterNamingConvention")
-    public void setShort_name(String short_name) { this.short_name = short_name; }
+    public void setShort_name(String short_name) {
+        this.short_name = short_name;
+    }
 
-    public Object getUser() { return user; }
+    public Object getUser() {
+        return user;
+    }
 
-    public void setUser(Object user) { this.user = user; }
+    public void setUser(Object user) {
+        this.user = user;
+    }
 }
